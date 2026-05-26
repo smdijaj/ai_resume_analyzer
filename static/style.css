@@ -1,0 +1,84 @@
+body {
+
+    background-color: #f1f5f9;
+
+    font-family: Arial, sans-serif;
+
+}
+
+
+/* NAVBAR */
+
+.navbar {
+
+    background: linear-gradient(
+        90deg,
+        #0f172a,
+        #1e293b
+    ) !important;
+
+    
+
+}
+
+
+/* PAGE HEADINGS */
+
+h1 {
+
+    color: #0f172a;
+
+    font-weight: bold;
+
+}
+
+
+/* CARDS */
+
+.card {
+
+    border: none;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+}
+
+
+/* BUTTONS */
+
+.btn-dark {
+
+    background-color: #2563eb;
+
+    border: none;
+
+}
+
+
+.btn-dark:hover {
+
+    background-color: #1d4ed8;
+
+}
+
+
+/* PROGRESS BAR */
+
+.progress {
+
+    height: 25px;
+
+    border-radius: 20px;
+
+}
+
+
+/* TABLES */
+
+table {
+
+    background-color: white;
+
+}

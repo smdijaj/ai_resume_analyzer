@@ -223,6 +223,49 @@ def home():
             plt.tight_layout()
             plt.savefig('static/score_chart.png')
             plt.close()
+            completed = 0
+            missing = 0
+
+            checks = [
+
+                email != "not found",
+                phone != "not found",
+                bool(education_found),
+                bool(experience_found),
+                len(found_skills) >= 5
+
+            ]
+
+            for item in checks:
+
+                if item:
+
+                    completed += 1
+
+                else:
+
+                    missing += 1
+                labels = ['Completed', 'Missing']
+
+            values = [completed, missing]
+
+            plt.figure(figsize=(6,6))
+
+            plt.pie(
+
+                values,
+
+                labels=labels,
+
+                autopct='%1.1f%%'
+
+            )
+
+            plt.title('Resume Completeness')
+
+            plt.savefig('static/completeness_chart.png')
+
+            plt.close()
             resume_df=pd.DataFrame({'Category':score_labels,'Score':score_values})
             table_data=resume_df.to_dict(orient='records')
             resume_data = {
