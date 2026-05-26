@@ -2,25 +2,16 @@ from flask import Flask, request, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from PyPDF2 import PdfReader
 import re
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER']='uploads'
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///resume.db'
 app.config['SECRET_KEY']='secretkey'
 db=SQLAlchemy(app)
 resume_data={}
-skills_db=[ 'python',
-    'sql',
-    'flask',
-    'pandas',
-    'numpy',
-    'matplotlib',
-    'machine learning',
-    'html',
-    'css',
-    'javascript',
-    'git',
-    'github',
-    'bootstrap']
+skills_db=[ 'python','sql','flask','pandas','numpy','matplotlib','machine learning','html','css','javascript','git','github','bootstrap']
 @app.route('/', methods=['GET', 'POST'])
 def home():
 
@@ -88,14 +79,7 @@ def home():
 
                     found_skills.append(skill)
 
-            education_keywords = [
-                'btech',
-                'bachelor',
-                'master',
-                'university',
-                'college',
-                'degree'
-            ]
+            education_keywords = ['btech','bachelor','master','university','college','degree']
 
             education_found = []
 
@@ -105,13 +89,7 @@ def home():
 
                     education_found.append(word)
 
-            experience_keywords = [
-                'intern',
-                'experience',
-                'developer',
-                'engineer',
-                'project'
-            ]
+            experience_keywords = ['intern','experience','developer','engineer','project']
 
             experience_found = []
 
@@ -127,18 +105,31 @@ def home():
             experience_score = 15 if experience_found else 0
             word_count = len(content.split())
             content_score = 10 if word_count > 200 else 0
-            score = (
-
-    skills_score +
-    email_score +
-    phone_score +
-    education_score +
-    experience_score +
-    content_score
-
-)
-
+            score = (skills_score +email_score +phone_score + education_score +experience_score +content_score)
             score = min(score, 100)
+            if found_skills:
+                skill_values=np.ones(len(found_skills))
+                plt.figure(figsize=(8,5))
+                plt.bar(found_skills,skill_values)
+                plt.title('Detected Skills')
+                plt.xlabel('Skills')
+                plt.ylabel('Presence')
+                plt.xticks(rotation=30)
+                plt.tight_layout()
+                plt.savefig('static/skills_chart.png')
+                plt.close()
+            score_labels = ['Skills','Email','Phone','Education','Experience','Content']
+            score_values = [skills_score,email_score,phone_score,education_score,experience_score,content_score]
+            plt.figure(figsize=(8,5))
+            plt.bar(score_labels,score_values)
+            plt.title('ATS Score Breakdown')
+            plt.xlabel('categories')
+            plt.ylabel('score')
+            plt.tight_layout()
+            plt.savefig('static/score_chart.png')
+            plt.close()
+            resume_df=pd.DataFrame({'Category':score_labels,'Score':score_values})
+            table_data=resume_df.to_dict(orient='records')
             resume_data = {
                 'score':score,
                 'skills_score': skills_score,
@@ -153,8 +144,8 @@ def home():
                 'phone': phone,
                 'skills': found_skills,
                 'education': education_found,
-                'experience': experience_found
-
+                'experience': experience_found,
+                'table_data':table_data
             }
 
             return redirect('/dashboard')
@@ -168,7 +159,8 @@ def dashboard():
     )
 @app.route('/analytics')
 def analytics():
-    return render_template('analytics.html')
+
+    return render_template('analytics.html',data=resume_data)
 @app.route('/improvements')
 def improvements():
     return render_template('improvements.html')

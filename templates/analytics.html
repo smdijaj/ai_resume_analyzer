@@ -2,8 +2,96 @@
 
 {% block content %}
 
-<h1 class="text-center">
-    Analytics Dashboard
+<h1 class="text-center mb-5">
+    Resume Analytics
 </h1>
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-body">
+
+                <h4 class="text-center">
+                    Skills Analysis
+                </h4>
+
+                <img
+                    src="{{ url_for('static', filename='skills_chart.png') }}"
+                    class="img-fluid"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-body">
+
+                <h4 class="text-center">
+                    ATS Score Breakdown
+                </h4>
+
+                <img
+                    src="{{ url_for('static', filename='score_chart.png') }}"
+                    class="img-fluid"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <h4 class="mb-4">
+            Analytics Table
+        </h4>
+
+        <table class="table table-bordered">
+
+            <thead>
+
+                <tr>
+
+                    <th>Category</th>
+                    <th>Score</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for row in data.table_data %}
+
+                <tr>
+
+                    <td>{{ row.Category }}</td>
+                    <td>{{ row.Score }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
 {% endblock %}
