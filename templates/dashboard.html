@@ -6,21 +6,67 @@
     Resume Dashboard
 </h1>
 
+<div class="row">
+
+    <div class="col-md-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-body">
+
+                <h4>Name</h4>
+
+                <p>{{ data.name }}</p>
+
+                <h4>Email</h4>
+
+                <p>{{ data.email }}</p>
+
+                <h4>Phone</h4>
+
+                <p>{{ data.phone }}</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-body">
+
+                <h4>Detected Skills</h4>
+
+                <ul>
+
+                    {% for skill in data.skills %}
+
+                        <li>{{ skill }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 <div class="card shadow">
 
     <div class="card-body">
 
-        <h4>
-            Extracted Resume Content
-        </h4>
+        <h4>Resume Content</h4>
 
         <hr>
 
-        <pre>
-
-{{ content }}
-
-        </pre>
+        <pre>{{ data.content }}</pre>
 
     </div>
 
