@@ -120,9 +120,22 @@ def home():
                 if word in lower_content:
 
                     experience_found.append(word)
-
+            score=0
+            score+=min(len(found_skills)*8,40)
+            if email!="not found":
+                score+=10
+            if phone!="not found":
+                score+=10
+            if education_found:
+                score+=15
+            if experience_found:
+                score+=15
+            word_count=len(content.split())
+            if word_count>200:
+                score+=10
+            score=min(score,100)
             resume_data = {
-
+                'score':score,
                 'content': content,
                 'name': name,
                 'email': email,
