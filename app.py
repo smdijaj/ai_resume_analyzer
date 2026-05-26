@@ -2,11 +2,18 @@ from flask import Flask, request, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER']='uploads'
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///resume.db'
 app.config['SECRET_KEY']='secretkey'
 db=SQLAlchemy(app)
-@app.route('/')
+@app.route('/',methods=['GET','POST'])
 def home():
+    if request.method=='POST':
+        resume=request.files['resume']
+        if resume:
+            file_path=f"{app.config['UPLOAD_FOLDER']}/{resume.filename}"
+            resume.save(file_path)
+            return redirect('/dashboard')    
     return render_template('home.html')
 @app.route('/dashboard')
 def dashboard():
