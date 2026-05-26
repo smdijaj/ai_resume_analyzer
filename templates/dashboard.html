@@ -2,8 +2,28 @@
 
 {% block content %}
 
-<h1 class="text-center">
+<h1 class="text-center mb-5">
     Resume Dashboard
 </h1>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <h4>
+            Extracted Resume Content
+        </h4>
+
+        <hr>
+
+        <pre>
+
+{{ content }}
+
+        </pre>
+
+    </div>
+
+</div>
 
 {% endblock %}
