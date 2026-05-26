@@ -13,6 +13,38 @@ db=SQLAlchemy(app)
 resume_data={}
 skills_db=[ 'python','sql','flask','pandas','numpy','matplotlib','machine learning','html','css','javascript','git','github','bootstrap']
 recommended_skills = ['python','sql','flask','pandas','numpy','matplotlib','machine learning','git','github','api','data analysis']
+job_roles = {
+
+    'Data Analyst': [
+        'python',
+        'sql',
+        'pandas',
+        'numpy',
+        'matplotlib'
+    ],
+
+    'Backend Developer': [
+        'python',
+        'flask',
+        'sql',
+        'api'
+    ],
+
+    'Frontend Developer': [
+        'html',
+        'css',
+        'javascript',
+        'bootstrap'
+    ],
+
+    'Machine Learning Engineer': [
+        'python',
+        'machine learning',
+        'numpy',
+        'pandas'
+    ]
+
+}
 @app.route('/', methods=['GET', 'POST'])
 def home():
 
@@ -152,6 +184,24 @@ def home():
                 improvements.append(
                 "Add GitHub profile link"
             )
+            job_matches={}
+            for role, skills in job_roles.items():
+
+                matched = 0
+
+                for skill in skills:
+
+                    if skill in found_skills:
+
+                        matched += 1
+
+                percentage = int(
+
+                    (matched / len(skills)) * 100
+
+                )
+
+                job_matches[role] = percentage
             if found_skills:
                 skill_values=np.ones(len(found_skills))
                 plt.figure(figsize=(8,5))
@@ -190,7 +240,8 @@ def home():
                 'skills': found_skills,
                 'education': education_found,
                 'experience': experience_found,
-                'table_data':table_data
+                'table_data':table_data,
+                'job_matches':job_matches
             }
 
             return redirect('/dashboard')
@@ -211,6 +262,6 @@ def improvements():
     return render_template('improvements.html',data=resume_data)
 @app.route('/jobs')
 def jobs():
-    return render_template('jobs.html')
+    return render_template('jobs.html',data=resume_data)
 if __name__=='__main__':
     app.run(debug=True)

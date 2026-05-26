@@ -2,8 +2,62 @@
 
 {% block content %}
 
-<h1 class="text-center">
+<h1 class="text-center mb-5">
     Job Recommendations
 </h1>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <table class="table table-bordered">
+
+            <thead>
+
+                <tr>
+
+                    <th>Job Role</th>
+                    <th>Match Percentage</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for role, percentage in data.job_matches.items() %}
+
+                <tr>
+
+                    <td>{{ role }}</td>
+
+                    <td>
+
+                        <div class="progress">
+
+                            <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                style="width: {{ percentage }}%;">
+
+                                {{ percentage }}%
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
 {% endblock %}
