@@ -12,6 +12,7 @@ app.config['SECRET_KEY']='secretkey'
 db=SQLAlchemy(app)
 resume_data={}
 skills_db=[ 'python','sql','flask','pandas','numpy','matplotlib','machine learning','html','css','javascript','git','github','bootstrap']
+recommended_skills = ['python','sql','flask','pandas','numpy','matplotlib','machine learning','git','github','api','data analysis']
 @app.route('/', methods=['GET', 'POST'])
 def home():
 
@@ -78,7 +79,13 @@ def home():
                 if skill in lower_content:
 
                     found_skills.append(skill)
+                    missing_skills = []
 
+                    for skill in recommended_skills:
+
+                        if skill not in found_skills:
+
+                            missing_skills.append(skill)
             education_keywords = ['btech','bachelor','master','university','college','degree']
 
             education_found = []
@@ -107,6 +114,44 @@ def home():
             content_score = 10 if word_count > 200 else 0
             score = (skills_score +email_score +phone_score + education_score +experience_score +content_score)
             score = min(score, 100)
+            improvements = []
+            if email == "not found":
+                improvements.append("Add professional email address")
+            if phone == "not found":
+
+                improvements.append(
+                "Add phone number"
+            )
+            if not education_found:
+
+                improvements.append(
+                "Add education details"
+            )
+            if not experience_found:
+
+                improvements.append(
+                "Add work experience or projects"
+            )
+            if len(found_skills) < 5:
+
+                improvements.append(
+                "Add more technical skills"
+            )
+            if len(found_skills) < 5:
+
+                improvements.append(
+                "Add more technical skills"
+            )
+            if word_count < 200:
+
+                improvements.append(
+                "Increase resume content and project details"
+            )
+            if 'github' not in lower_content:
+
+                improvements.append(
+                "Add GitHub profile link"
+            )
             if found_skills:
                 skill_values=np.ones(len(found_skills))
                 plt.figure(figsize=(8,5))
@@ -163,7 +208,7 @@ def analytics():
     return render_template('analytics.html',data=resume_data)
 @app.route('/improvements')
 def improvements():
-    return render_template('improvements.html')
+    return render_template('improvements.html',data=resume_data)
 @app.route('/jobs')
 def jobs():
     return render_template('jobs.html')

@@ -2,8 +2,72 @@
 
 {% block content %}
 
-<h1 class="text-center">
+<h1 class="text-center mb-5">
     Resume Improvements
 </h1>
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-body">
+
+                <h3 class="mb-4">
+                    Missing Skills
+                </h3>
+
+                <ul class="list-group">
+
+                    {% for skill in data.missing_skills %}
+
+                    <li class="list-group-item">
+
+                        {{ skill }}
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-body">
+
+                <h3 class="mb-4">
+                    Improvement Suggestions
+                </h3>
+
+                <ul class="list-group">
+
+                    {% for item in data.improvements %}
+
+                    <li class="list-group-item">
+
+                        {{ item }}
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}
